@@ -8,7 +8,24 @@ This directory contains a **standalone** subset of the Vitis Vision library need
 - `include/common/*`: required Vitis Vision common headers.
 - `config/xf_config_params.h`: configuration used by the example wrapper.
 - `src/sgbm_top.cpp`: top-level HLS wrapper that instantiates `SemiGlobalBM`.
-- `CMakeLists.txt`: starter CMake file for building a library target.
+- `csim/sgbm_csim.cpp`: simple C-sim harness that runs the kernel on your own images.
+- `CMakeLists.txt`: starter CMake file for building a library target and optional C-sim executable.
+
+## C-sim quick start
+
+`sgbm_csim` is a lightweight C-simulation harness that loads a left/right grayscale image pair and writes a disparity image using the SGBM kernel.
+
+```bash
+mkdir -p build && cd build
+cmake ..
+cmake --build . --target sgbm_csim
+./sgbm_csim <left.png> <right.png> <out.png> [penalty_small] [penalty_large]
+```
+
+Notes:
+- The input images must be grayscale and smaller than or equal to `HEIGHT`/`WIDTH` in `config/xf_config_params.h`.
+- The penalties default to `SMALL_PENALTY` and `LARGE_PENALTY` from the config header.
+- `sgbm_csim` is only built when OpenCV is available.
 
 ## Notes
 
